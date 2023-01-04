@@ -57,6 +57,8 @@ defusedxml @ file:///tmp/build/80754af9/defusedxml_1615228127516/work
 diff-match-patch @ file:///tmp/build/80754af9/diff-match-patch_1594828741838/work
 distributed @ file:///C:/ci/distributed_1617384289923/work
 Django==4.1.4
+django-cors-headers==3.13.0
+djangorestframework==3.14.0
 docutils @ file:///C:/ci/docutils_1617481617511/work
 entrypoints==0.3
 et-xmlfile==1.0.1
