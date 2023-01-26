@@ -7,7 +7,6 @@ class AnnonceList(generics.ListCreateAPIView):
     queryset = Annonce.objects.all()
     serializer_class = AnnonceSerializer
 
-
 class AnnonceDetail(generics.RetrieveDestroyAPIView):
     queryset = Annonce.objects.all()
     serializer_class = AnnonceSerializer

@@ -12,18 +12,14 @@ from django.contrib.auth.models import AbstractBaseUser,    BaseUserManager, Per
 
 
 
-class Theme(models.Model):
+"""class Theme(models.Model):
     name = models.CharField(max_length=50)
     def __str__(self):
-        return self.name
-class Wilaya(models.Model):
-    name=models.CharField(max_length=50)
-    code=models.CharField(max_length=2)
-class Commune(models.Model):
-    wilaya=models.ForeignKey(Wilaya,on_delete=models.CASCADE)
-    name=models.CharField(max_length=100)
+        return self.name"""
+   
 class Adresse(models.Model):
-    Commune=models.ForeignKey(Commune,on_delete=models.CASCADE)
+    wilaya=models.CharField(max_length=100)
+    Commune=models.CharField(max_length=100)
     latitude = models.DecimalField(
                 max_digits=9, decimal_places=6, null=True, blank=True)
 
@@ -48,8 +44,12 @@ class Annonce(models.Model):
         ('online ', 'online '),
         
     )
-    Theme =models.ForeignKey(
-        Theme,on_delete=models.RESTRICT  )
+    theme_options=(
+         ('math ', 'math '),
+        ('science ', 'science '),
+    )
+    theme =models.CharField(max_length=50, choices=theme_options
+         )
     annoncer = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='annonces')
     title=models.CharField(max_length=80)
@@ -59,17 +59,19 @@ class Annonce(models.Model):
         max_length=8, choices=modalité_options,)
     description = models.TextField(max_length=300,blank=True)
     tarif  = models.CharField(max_length=30)
-    wilaya = models.CharField (max_length=50)
-    Commune = models.CharField( max_length=50)
     adresse = models.ForeignKey(Adresse,on_delete=models.CASCADE)
-    slug = models.SlugField(max_length=250, unique=True)
+    slug = models.CharField(max_length=80, blank=False, null=False,unique=True)
     published = models.DateTimeField(default=timezone.now)
-    bookmarks =models.ManyToManyField(User, related_name='bookmark',default=None,blank=True)
+
     class Meta:
         ordering = ('-published',)
 
     def __str__(self):
-        return self.annoncer.email +' '+self.description[:15]
+        return self.annoncer.email +' '+self.title[:15]
 class Photo(models.Model):
     upload = models.ImageField(upload_to = user_directory_path)
-    annonce = models.ForeignKey(Annonce,on_delete=models.CASCADE)
+    annonce = models.ForeignKey(Annonce,related_name='images',on_delete=models.CASCADE)
+
+class Bookmark(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    Annonce = models.ForeignKey(Annonce, on_delete=models.CASCADE)
