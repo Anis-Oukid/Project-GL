@@ -36,17 +36,17 @@ class Annonce(models.Model):
 
     category_options = (
         ('primaire', 'primaire'),
-        ('collège', 'collège'),
-         ('lycée ', 'lycée '),
+        ('college', 'college'),
+         ('lycee', 'lycee'),
     )
     modalité_options = (
-        ('offline ', 'offline '),
-        ('online ', 'online '),
+        ('offline', 'offline'),
+        ('online', 'online'),
         
     )
     theme_options=(
-         ('math ', 'math '),
-        ('science ', 'science '),
+         ('math', 'math'),
+        ('science', 'science'),
     )
     theme =models.CharField(max_length=50, choices=theme_options
          )
@@ -59,8 +59,8 @@ class Annonce(models.Model):
         max_length=8, choices=modalité_options,)
     description = models.TextField(max_length=300,blank=True)
     tarif  = models.CharField(max_length=30)
-    adresse = models.ForeignKey(Adresse,on_delete=models.CASCADE)
-    slug = models.CharField(max_length=80, blank=False, null=False,unique=True)
+    adresse = models.ForeignKey(Adresse,on_delete=models.CASCADE,blank=True,null=True)
+   # slug = models.CharField(max_length=80, blank=False, null=False,unique=True)
     published = models.DateTimeField(default=timezone.now)
 
     class Meta:
@@ -69,7 +69,7 @@ class Annonce(models.Model):
     def __str__(self):
         return self.annoncer.email +' '+self.title[:15]
 class Photo(models.Model):
-    upload = models.ImageField(upload_to = user_directory_path)
+    upload = models.ImageField(upload_to = 'images')
     annonce = models.ForeignKey(Annonce,related_name='images',on_delete=models.CASCADE)
 
 class Bookmark(models.Model):

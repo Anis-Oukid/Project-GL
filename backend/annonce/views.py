@@ -1,15 +1,34 @@
 from rest_framework import generics
-from .models import Annonce
-from .serializers import AnnonceSerializer
+from .models import Annonce,Bookmark
+from .serializers import AnnonceSerializer,BookmarkSerializer
 
 
 class AnnonceList(generics.ListCreateAPIView):
     queryset = Annonce.objects.all()
     serializer_class = AnnonceSerializer
+    def perform_create(self, serializer):
+        serializer.save(annoncer=self.request.user)
 
-class AnnonceDetail(generics.RetrieveDestroyAPIView):
+class AnnonceDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Annonce.objects.all()
     serializer_class = AnnonceSerializer
+    
+
+class AddToBookmarks(generics.CreateAPIView):
+    queryset = Bookmark.objects.all()
+    serializer_class = BookmarkSerializer
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+class RemoveFromBookmarks(generics.RetrieveDestroyAPIView):
+    queryset = Bookmark.objects.all()
+    serializer_class = BookmarkSerializer
+
+class AllBookmarks(generics.ListAPIView):
+    queryset = Bookmark.objects.all()
+    serializer_class = BookmarkSerializer
+    def get_queryset(self):
+        return Bookmark.objects.filter(user=self.request.user)
 
 
 """ Concrete View Classes

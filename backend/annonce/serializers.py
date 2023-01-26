@@ -10,7 +10,6 @@ class AnnonceImageSerializers(serializers.ModelSerializer):
         fields = "__all__"
 
 class AnnonceSerializer(serializers.ModelSerializer):
-    bookmarks = serializers.PrimaryKeyRelatedField(many=True, queryset=User.objects.all(), required=False)
     images =  AnnonceImageSerializers(many=True, read_only=True)
     uploaded_images = serializers.ListField(
         child=serializers.ImageField(allow_empty_file=False, use_url=False),
@@ -19,8 +18,8 @@ class AnnonceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Annonce
-        fields = ('id', 'annoncer', 'title', 'category','theme', 'modalite', 'description', 'tarif', 'adresse', 'slug', 'published',"images",
-                  "uploaded_images",'bookmarks')
+        fields = ('id', 'annoncer', 'title', 'category','theme', 'modalite', 'description', 'tarif', 'adresse', 'published',"images",
+                  "uploaded_images")
 
     def create(self, validated_data):
         uploaded_images = validated_data.pop("uploaded_images")
@@ -32,7 +31,7 @@ class AnnonceSerializer(serializers.ModelSerializer):
         return annonce
 
 class BookmarkSerializer(serializers.ModelSerializer):
-    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+    user = serializers.PrimaryKeyRelatedField(read_only=True,default=serializers.CurrentUserDefault())
     annonce = serializers.PrimaryKeyRelatedField(queryset=Annonce.objects.all())
 
     class Meta:
