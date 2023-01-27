@@ -75,3 +75,16 @@ class Photo(models.Model):
 class Bookmark(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     Annonce = models.ForeignKey(Annonce, on_delete=models.CASCADE)
+class Conversation(models.Model):
+    annonce=models.ForeignKey(Annonce,on_delete=models.CASCADE)
+    pariticipant1=models.ForeignKey(User, on_delete=models.CASCADE,related_name='pariticipant1')
+    pariticipant2=models.ForeignKey(User, on_delete=models.CASCADE,related_name='pariticipant2')
+    def __str__(self):
+        return self.annonce+' '+self.pariticipant2
+
+class Message(models.Model):
+    conversation=models.ForeignKey(Conversation,on_delete=models.CASCADE)
+    body=models.CharField(max_length=255)
+    sender=models.ForeignKey(User, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.body[:10]+' '+self.conversation[:10]

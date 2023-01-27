@@ -136,7 +136,7 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'your-client-id'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'your-client-secret'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '28799489235-i6dht8pfcfratg2daufchfhcfokge8lo.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
 
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
