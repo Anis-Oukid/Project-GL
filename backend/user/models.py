@@ -43,15 +43,16 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=254, unique=True)
     firstname = models.CharField(max_length=80, null=True, blank=True)
     lastname = models.CharField(max_length=80, null=True, blank=True)
-    phoneNumber=models.CharField(max_length=15)
-    addresse=models.CharField(max_length=50)
+    phonenumber=models.CharField(max_length=15,blank=True)
+    addresse=models.CharField(max_length=50,blank=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     last_login = models.DateTimeField(null=True, blank=True)
     date_joined = models.DateTimeField(auto_now_add=True)
     
-
+    auth_provider = models.CharField(
+        max_length=50, blank=True, default='email')
     USERNAME_FIELD = 'email'
     EMAIL_FIELD = 'email'
     REQUIRED_FIELDS = []

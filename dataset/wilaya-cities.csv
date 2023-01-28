@@ -1,4 +1,4 @@
-id,commune_name,commune_name_ascii,daira_name,daira_name_ascii,wilaya_code,wilaya_name,wilaya_name_ascii
+id,commune_name,commune,daira,daira,code,wilaya,name
 22,تيمقتن,Timekten,أولف,Aoulef,01,أدرار,Adrar
 6,بودة,Bouda,أدرار,Adrar,01,أدرار,Adrar
 13,أولاد أحمد تيمي,Ouled Ahmed Timmi,أدرار,Adrar,01,أدرار,Adrar

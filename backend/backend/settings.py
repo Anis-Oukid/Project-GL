@@ -42,7 +42,14 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'user',
+      
+     'oauth2_provider',
+    'social_django',
+    'drf_social_oauth2',
+
 ]
+SITE_ID = 1
+ACCOUNT_USER_MODEL_USERNAME_FIELD = 'email'
 AUTH_USER_MODEL = 'user.User'
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -68,6 +75,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+            'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
+       
             ],
         },
     },
@@ -131,12 +141,29 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
 ]
+REST_FRAMEWORK = {
+    
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        
+        # 'oauth2_provider.ext.rest_framework.OAuth2Authentication',  # django-oauth-toolkit < 1.0.0
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',  # django-oauth-toolkit >= 1.0.0
+        'drf_social_oauth2.authentication.SocialAuthentication',
+    ),
+}
+
+
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.google.GoogleOAuth2',
-    'django.contrib.auth.backends.ModelBackend',
+   'drf_social_oauth2.backends.DjangoOAuth2',
+   'django.contrib.auth.backends.ModelBackend',
 )
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '28799489235-i6dht8pfcfratg2daufchfhcfokge8lo.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
 
-SOCIAL_AUTH_URL_NAMESPACE = 'social'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '28799489235-i6dht8pfcfratg2daufchfhcfokge8lo.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET= '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'
+
+#SOCIAL_AUTH_URL_NAMESPACE = 'social'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
+    'https://www.googleapis.com/auth/userinfo.email',
+    'https://www.googleapis.com/auth/userinfo.profile',
+]

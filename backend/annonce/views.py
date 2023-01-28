@@ -1,4 +1,4 @@
-from rest_framework import generics
+from rest_framework import generics,filters
 from .models import Annonce,Bookmark
 from .serializers import AnnonceSerializer,BookmarkSerializer
 
@@ -12,7 +12,12 @@ class AnnonceList(generics.ListCreateAPIView):
 class AnnonceDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Annonce.objects.all()
     serializer_class = AnnonceSerializer
-    
+
+class AnnonceSearch(generics.ListAPIView):
+    queryset = Annonce.objects.all()
+    serializer_class = AnnonceSerializer
+    filter_backends=[filters.SearchFilter]
+    search_fields=('adresse__Commune', 'adresse__wilaya', 'title', 'category','theme', 'modalite', 'description', 'tarif','published')
 
 class AddToBookmarks(generics.CreateAPIView):
     queryset = Bookmark.objects.all()
@@ -29,6 +34,7 @@ class AllBookmarks(generics.ListAPIView):
     serializer_class = BookmarkSerializer
     def get_queryset(self):
         return Bookmark.objects.filter(user=self.request.user)
+    
 
 
 """ Concrete View Classes
