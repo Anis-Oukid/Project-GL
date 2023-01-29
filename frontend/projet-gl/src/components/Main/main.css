@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+* a {
+    text-decoration: none;
+}
+
+.mainBody{
+    background-color: #DFE2E2;
+    height: fit-content;
+}
+.heroPage{
+    height: fit-content;
+    width: 100%;
+    background-color: #f9dfaf;
+    display: grid;
+    grid-template-columns: 40% 55%;
+    grid-gap: 5%;
+    margin-bottom: 0px;
+}
+
+.descriptionSection{
+    height: fit-content;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    align-items: flex-start;
+    top: 8%;
+    left: 10%;
+}
+.aboutUs{
+    font-size: 1.2rem;
+}
+
+.logoIcon img{
+    margin-bottom: 8%;
+    max-height: 50%;
+    max-width: 50%;
+}
+
+.googleButton{
+    margin-top: 2%;
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: middle;
+    width: 80%;
+    height: 50px;
+    border-radius: 18px;
+    background-color: white;
+    border: 2px solid black;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+span.logoGoogle{
+    vertical-align: middle;
+    position: relative;
+}
+.gLogo {
+    max-height: 50%;
+    max-width: 50%;
+}
+
+.heroImage{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.logoSection img{
+    width: 80%;
+}
+
+.aboutUsSection{
+    background-color: #DFE2E2;
+    align-items: center;
+    padding-bottom: 30px;
+    margin-top: 30px;
+}
+
+.aboutUsText{
+    width: 80%;
+    margin: auto;
+    font-size: 1.2rem;
+}

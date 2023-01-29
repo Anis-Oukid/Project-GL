@@ -1,0 +1,81 @@
+.main{
+    display: flex;
+    height: 100px;
+    background-color: #1F2F31;
+    align-items:center;
+    justify-content: space-between;
+}
+.main a{
+    text-decoration: none;
+}
+
+
+.logoNav img{
+    max-height: 100%;
+    max-width: 100%;
+}
+
+
+.smallIcon p{
+    margin-top: 0;
+    font-size: 1rem;
+}
+.smallIcon a{
+    font-size: 2rem;
+    color: #B5A663;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.searchBar{
+    align-self: center;
+    display: flex;
+    justify-content: left;
+    margin: 10px 5% 1% 5%;
+    height: 40%;
+    width: 50%;
+    background-color: #DFE2E2;
+    padding: 3px;
+    border-radius: 30px;
+    font-size: 1.5rem;
+}
+.searchBar input{
+    height: 100%;
+    width: 90%;
+    outline: none;
+    border: none;
+    background-color: #DFE2E2;
+    border-radius: inherit;
+}
+.searchIcon{
+    height: fit-content;
+    cursor: pointer;
+    position: relative;
+    left: 1%;
+    top: 18%;
+    margin-right: 10px;
+}
+.registerButton{
+    color: #1F2F31;
+    padding: 1rem;
+    background-color: #B5A663;
+    font-weight: bold;
+    border-radius: 30px;
+    position: relative;
+    right: 2%;
+}
+.loginButton{
+    position: relative;
+    right: 2%;
+    color: #B5A663;
+    font-weight: bold;
+}
+
+#profileIcon{
+    position: relative;
+    right: 20%;
+}

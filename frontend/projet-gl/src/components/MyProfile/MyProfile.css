@@ -1,0 +1,50 @@
+.myProfileBody{
+    background-color: #D9D9D999;
+    display: grid;
+    grid-template-columns: 25% 75%;
+    height: fit-content;
+    width: 100%;
+}
+.myProfileTab{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: fit-content;
+    padding-bottom: 10%;
+    background-color: #B5A663;
+}
+.userAttribute{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 1.1vw;
+    word-break: break-all;
+    margin: 0 0 5% 0;
+}
+
+.profilePic{
+    width: 70%;
+    border-radius: 100%;
+    border: 2px solid #1F2F31;
+}
+.editButton{
+    width: fit-content;
+    height: fit-content;
+    padding: 0.5rem 2rem;
+    border-radius: 20px;
+    background-color: #1F2F31;
+    color: #FFFFFF;
+    font-weight: 800;
+    font-size: 1.3vw;
+    cursor: pointer;
+    border: none;
+}
+.userAttrTest{
+    outline: none;
+    background-color: #B5A663;
+    height: 2%;
+    font-size: 1.5vw;
+    font-weight: 700;
+    word-break: break-all;
+}
