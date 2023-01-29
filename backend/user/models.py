@@ -4,6 +4,7 @@ from django.db import models
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import AbstractBaseUser,    BaseUserManager, PermissionsMixin
+from rest_framework_simplejwt.tokens import RefreshToken
 
 # Create your models here.
 
@@ -44,7 +45,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     firstname = models.CharField(max_length=80, null=True, blank=True)
     lastname = models.CharField(max_length=80, null=True, blank=True)
     phonenumber=models.CharField(max_length=15,blank=True)
-    addresse=models.CharField(max_length=50,blank=True)
+    addresse=models.CharField(max_length=200,blank=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
@@ -52,7 +53,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     date_joined = models.DateTimeField(auto_now_add=True)
     
     auth_provider = models.CharField(
-        max_length=50, blank=True, default='email')
+        max_length=50, blank=True, default='google')
     USERNAME_FIELD = 'email'
     EMAIL_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -61,3 +62,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_absolute_url(self):
         return "/users/%i/" % (self.pk)
+    def tokens(self):
+        refresh = RefreshToken.for_user(self)
+        return {
+            'refresh': str(refresh),
+            'access': str(refresh.access_token)
+        }

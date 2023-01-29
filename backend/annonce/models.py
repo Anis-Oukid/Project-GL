@@ -52,7 +52,7 @@ class Annonce(models.Model):
          )
     annoncer = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='annonces')
-    title=models.CharField(max_length=80)
+    title=models.CharField(max_length=100)
     category = models.CharField(
         max_length=10, choices=category_options,)
     modalite = models.CharField(

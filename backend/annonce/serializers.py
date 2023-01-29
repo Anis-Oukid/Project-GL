@@ -26,6 +26,7 @@ class AnnonceSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         uploaded_images = validated_data.pop("uploaded_images")
+    
         adresse_data = validated_data.pop('adresse')
         adresse = Adresse.objects.create(**adresse_data)
         annonce = Annonce.objects.create(adresse=adresse.id, **validated_data)
@@ -37,7 +38,8 @@ class AnnonceSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
         class Meta:
             model = User
-            fields = ["username", "email", "date_joined"]
+            fields = ["firstname","lastname",'phonenumber','addresse', "email"]
+
 class BookmarkSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     annonce = serializers.PrimaryKeyRelatedField(queryset=Annonce.objects.all())

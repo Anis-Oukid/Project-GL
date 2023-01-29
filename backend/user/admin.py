@@ -8,7 +8,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 class UserAdmin(BaseUserAdmin):
     fieldsets = (
-        (None, {'fields': ('email', 'password', 'firstname','lastname','phonenumber','addresse', 'last_login')}),
+        (None, {'fields': ('email', 'password', 'firstname','lastname','phonenumber','addresse', 'last_login','auth_provider')}),
         ('Permissions', {'fields': (
             'is_active', 
             'is_staff', 
@@ -28,7 +28,7 @@ class UserAdmin(BaseUserAdmin):
     )
 
     list_display = ('email', 'firstname', 'lastname','is_staff', 'last_login')
-    list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
+    list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups','auth_provider')
     search_fields = ('email',)
     ordering = ('email',)
     filter_horizontal = ('groups', 'user_permissions',)

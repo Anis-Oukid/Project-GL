@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import AnnonceList, AnnonceDetail,AddToBookmarks,RemoveFromBookmarks,AllBookmarks,AnnonceSearch
+from .views import AnnonceList, AnnonceDetail,AddToBookmarks,RemoveFromBookmarks,AllBookmarks,AnnonceSearch,Myprofile
 
 
 
@@ -10,6 +10,7 @@ urlpatterns = [
     path('add-bookmark', AddToBookmarks.as_view(), name='addBookmark'),
     path('bookmarks/<int:pk>/', RemoveFromBookmarks.as_view(), name='removeBookmark'),
     path('bookmarks', AddToBookmarks.as_view(), name='allBookmarks'),
-    
+    path('myprofile', Myprofile.as_view(), name='profile'),
 
 ]
+
