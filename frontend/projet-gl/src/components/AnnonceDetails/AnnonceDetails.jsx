@@ -82,7 +82,7 @@ const AnnonceDetails = () => {
 
         //setCommunesOptions(communes[selectedWilaya]);
         
-      }, [isCancel]);
+      }, [annonce,images]);
     return (
        <div className="Announcement_detailed_body">
         <div className="announcementDetailsContent">
