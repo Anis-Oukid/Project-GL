@@ -11,25 +11,29 @@ class AnnonceImageSerializers(serializers.ModelSerializer):
 class AdresseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Adresse
-        fields = ('id', 'wilaya', 'Commune', 'latitude', 'longitude')
+        fields = "__all__"
 class AnnonceSerializer(serializers.ModelSerializer):
+    #annoncer = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    adresse=AdresseSerializer(many=False,read_only=True)
     images =  AnnonceImageSerializers(many=True, read_only=True)
     uploaded_images = serializers.ListField(
         child=serializers.ImageField(allow_empty_file=False, use_url=False),
         write_only=True
     )
-    adresse = AdresseSerializer(required=True)
     class Meta:
         model = Annonce
-        fields = ('id', 'annoncer', 'title', 'category','theme', 'modalite', 'description', 'tarif', 'adresse', 'published',"images",
-                  "uploaded_images")
+        fields = ('id', 'title', 'category','theme', 'modalite', 'description', 'tarif', 'adresse', 'published',"images",
+                  'uploaded_images')
 
-    def create(self, validated_data):
-        uploaded_images = validated_data.pop("uploaded_images")
     
-        adresse_data = validated_data.pop('adresse')
-        adresse = Adresse.objects.create(**adresse_data)
-        annonce = Annonce.objects.create(adresse=adresse.id, **validated_data)
+    def create(self, validated_data):
+       
+        uploaded_images = validated_data.pop("uploaded_images") 
+        validated_data['annoncer'] = self.context['request'].user
+       
+        #adresse_data = validated_data.pop('adresse')
+        #adresse = Adresse.objects.create(**adresse_data)
+        annonce = Annonce.objects.create(**validated_data)
 
         for image in uploaded_images:
             Photo.objects.create(annonce=annonce, upload=image)
@@ -41,12 +45,13 @@ class UserSerializer(serializers.ModelSerializer):
             fields = ["firstname","lastname",'phonenumber','addresse', "email"]
 
 class BookmarkSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)
-    annonce = serializers.PrimaryKeyRelatedField(queryset=Annonce.objects.all())
+    #user = UserSerializer(read_only=True)
+    Annonce=AnnonceSerializer(read_only=True)
+    #annonce = serializers.PrimaryKeyRelatedField(queryset=Annonce.objects.all())
 
     class Meta:
         model = Bookmark
-        fields = ('user', 'annonce')
+        fields = ['Annonce']
     def create(self, validated_data):
         request = self.context["request"]
         ModelClass = self.Meta.model

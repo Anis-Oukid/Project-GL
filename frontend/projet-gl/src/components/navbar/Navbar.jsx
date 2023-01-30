@@ -17,8 +17,8 @@ const Navbar = () =>{
                 <div className="logoNav">
                     <a href="/"><img src={logo} alt="logo" className="logo"/></a>
                 </div>
-                    <div className="smallIcon"><a href="/home" id="homeIcon"><HiHome/> <p>Home</p></a></div>
-                    <div className="smallIcon"><a href="/" id="infoIcon"><HiInformationCircle/> <p>About</p></a></div>
+                    <div className="smallIcon"><a href="/" id="homeIcon"><HiHome/> <p>Home</p></a></div>
+                    <div className="smallIcon"><a href="#" id="infoIcon"><HiInformationCircle/> <p>About</p></a></div>
                     
                 <div className="searchBar">
                     <div className="searchIcon"><HiSearch/></div>

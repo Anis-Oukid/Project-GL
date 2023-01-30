@@ -48,3 +48,63 @@
     font-weight: 700;
     word-break: break-all;
 }
+.myAnnouncements{
+    margin: 5%;
+}
+
+.annoncesCarousel{
+    display: flex;
+    height: fit-content;
+}
+
+
+.newAnnonce{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 270px;
+    width: 230px;
+    background-color: #A5B2B4;
+    border-radius: 5px;
+    margin: 10px;
+}
+.annonceLink{
+    text-decoration: none;
+    font-size: 2rem;
+    color: #1F2F31;
+    padding: 2rem;
+}
+
+.annonceBody{
+    margin: 10px;
+}
+
+
+
+
+.rec.rec-dot{
+    display: none;
+}
+
+
+.rec.rec-arrow {
+    border: 0px;
+    background-color: transparent !important;
+    transition: all 0.3s ease;
+    font-size: 1.5rem !important;
+    color: #1F2F31 !important;
+    width: 2rem !important;
+    height: 2rem !important;
+    min-width: 2rem !important;
+    line-height: 2rem !important;
+    border: none;
+    box-shadow: none;
+}
+.rec.rec-arrow:disabled{
+    opacity: 0.2;
+}
+
+.rec.rec-arrow:hover:not(:disabled) {
+    transform: scale(1.2);
+    box-shadow: none;
+}

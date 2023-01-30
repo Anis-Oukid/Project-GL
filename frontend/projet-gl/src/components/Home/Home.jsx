@@ -88,7 +88,7 @@ const Home = () =>{
                                 <option value={item.code+''+item.name}>{item.name}</option>
                             ))}
                         </select>
-                        
+                       
                        
                         {/*
                         <input list="wilayas" className="filterInput" onChange={(e) => setWilaya(e.target.value)} value={adresse__wilaya}/>
@@ -134,7 +134,7 @@ const Home = () =>{
                     {annonces&& annonces.map(annonce=>{
                   
                         
-                  return <Annonce  imgAnnonce={annonce.images[0].upload} annonceTitle={annonce.title} linkAnnonce="#" />
+                  return <Annonce  imgAnnonce={annonce.images[0].upload} annonceTitle={annonce.title} linkAnnonce={annonce.id} />
                     })}
                     
                    

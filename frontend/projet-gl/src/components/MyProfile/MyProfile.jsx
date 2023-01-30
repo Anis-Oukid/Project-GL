@@ -4,10 +4,22 @@ import profilePic from '../../img/profilePicture.png'
 import {BsFillTelephoneFill} from 'react-icons/bs'
 import {IoMdMail, IoMdPin} from 'react-icons/io'
 import { useAuthContext } from '../../hooks/useAuthContext'
+import Carousel, { consts } from "react-elastic-carousel";
+//import annoncesFavorites from "./annoncesFavorites";
+//import mesAnnonces from "./mesAnnonces";
+import {AiOutlinePlus} from 'react-icons/ai'
+import imgAnnonce from '../../img/imgannonce1.png'
+import Annonce from "../Annonce/Annonce";
 const MyProfile = () =>{
- 
+    const breakPoints = [
+        { width: 1, itemsToShow: 1 },
+        { width: 550, itemsToShow: 2 },
+        { width: 768, itemsToShow: 3 },
+        { width: 1200, itemsToShow: 4 },
+      ];
   const { user } = useAuthContext()
-
+    const [mesAnnonces,setAnnonces]=useState([]);
+    const [annoncesFavorites,setFavorites]=useState([])
     const [editProfile, setEditProfile] = useState(false);
     const[profile,setProfile]=useState(null)
     const [emailAdr, setEmailAdr] = useState(null);
@@ -48,22 +60,47 @@ const MyProfile = () =>{
       
         const fetchData=  async() => {
          
-            const response =  await fetch('http://127.0.0.1:8000/api/myprofile',{
+            const response1 =  await fetch('http://127.0.0.1:8000/api/myprofile',{
                 headers:{
                     'Authorization': `Bearer ${user.data.tokens.access}`,
                     'Content-Type': 'application/json'
                 }
             })
-            const json =  await response.json()
-      
-            if (response.ok) {
-              setPhoneNumber(json.phonenumber)
-              setEmailAdr(json.email)
-              setPhysicalAdr(json.addresse)
-              setUsername(json.firstname+' '+json.lastname)
-              
+
+            const json1 =  await response1.json()
+            
+            const response2 =  await fetch('http://127.0.0.1:8000/api/myannonces',{
+                headers:{
+                    'Authorization': `Bearer ${user.data.tokens.access}`,
+                    'Content-Type': 'application/json'
+                }
+            })
+
+            const json2 =  await response2.json()
+
+            const response3 =  await fetch('http://127.0.0.1:8000/api/bookmarks',{
+                headers:{
+                    'Authorization': `Bearer ${user.data.tokens.access}`,
+                    'Content-Type': 'application/json'
+                }
+            })
+
+            const json3 =  await response3.json()
+            
+
+            if (response1.ok) {
+              setPhoneNumber(json1.phonenumber)
+              setEmailAdr(json1.email)
+              setPhysicalAdr(json1.addresse)
+              setUsername(json1.firstname+' '+json1.lastname)
             }
-           
+            if (response2.ok){
+                setAnnonces(json2)
+            }
+            if (response3.ok){
+                console.log(json3)
+                setFavorites(json3)
+            }
         }
         if(user) {
         
@@ -81,7 +118,7 @@ const MyProfile = () =>{
                 <div className="lowerProfileTab">
                     <div className="userAttribute" id="phonenumber">
                         <BsFillTelephoneFill/>
-                        <input type="tel" required name="phonenumber" value={profile} onChange={handleInputChangePhone} style={{"border" : editProfile ? "1px solid":"none"}} className="userAttrTest" readOnly={!editProfile}/>
+                        <input type="text" required name="phonenumber" value={phoneNumber} onChange={handleInputChangePhone} style={{"border" : editProfile ? "1px solid":"none"}} className="userAttrTest" readOnly={!editProfile}/>
                     </div>
                     <div className="userAttribute" id="emailAddress">
                         <IoMdMail style={{"fontSize" : "1.3vw"}}/>
@@ -94,7 +131,29 @@ const MyProfile = () =>{
             {!editProfile && <button className="editButton" onClick={changeForm}>Edit Profile</button>}
             { editProfile && <button type="submit" className="editButton" >Save changes</button>}
             </form>
+            <div className="myAnnouncements">
+                <h1 className="bigTitle">My Announcements</h1>
+                <div className="annoncesCarousel">
+                    <Carousel breakPoints={breakPoints} showEmptySlots className="carousShow" > 
+                        <div className="newAnnonce">
+                            <a href="/addannonce" className="annonceLink"><AiOutlinePlus/></a>
+                        </div>
+                        {mesAnnonces.map(item =>
+                            <Annonce imgAnnonce={item.images[0].upload} linkAnnonce={item.id} annonceTitle={item.title} />
+                        )}
+                    </Carousel>
+                </div>
+                <h1 className="bigTitle">Saved Announcements</h1>
+                <div className="annoncesCarousel">
+                    <Carousel breakPoints={breakPoints}>
+                            {annoncesFavorites.map(item =>(
+                                
+                            <Annonce imgAnnonce={item.Annonce.images[0].upload} linkAnnonce={item.Annonce.id} annonceTitle={item.Annonce.title} />
+                            ))}
+                    </Carousel>
+                </div>
         </div>
+                                </div>
     )
 }
 

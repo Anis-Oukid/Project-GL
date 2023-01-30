@@ -5,13 +5,6 @@ from django.contrib.auth.models import AbstractBaseUser,    BaseUserManager, Per
 
 # Create your models here.
 
-
-
-
-
-
-
-
 """class Theme(models.Model):
     name = models.CharField(max_length=50)
     def __str__(self):
@@ -51,7 +44,7 @@ class Annonce(models.Model):
     theme =models.CharField(max_length=50, choices=theme_options
          )
     annoncer = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='annonces')
+        User, on_delete=models.CASCADE, related_name='annoncer')
     title=models.CharField(max_length=100)
     category = models.CharField(
         max_length=10, choices=category_options,)
@@ -59,6 +52,7 @@ class Annonce(models.Model):
         max_length=8, choices=modalité_options,)
     description = models.TextField(max_length=300,blank=True)
     tarif  = models.CharField(max_length=30)
+    
     adresse = models.ForeignKey(Adresse,on_delete=models.CASCADE,blank=True,null=True)
    # slug = models.CharField(max_length=80, blank=False, null=False,unique=True)
     published = models.DateTimeField(default=timezone.now)
