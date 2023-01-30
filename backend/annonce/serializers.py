@@ -46,20 +46,16 @@ class UserSerializer(serializers.ModelSerializer):
 
 class BookmarkSerializer(serializers.ModelSerializer):
     #user = UserSerializer(read_only=True)
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
     Annonce=AnnonceSerializer(read_only=True)
     #annonce = serializers.PrimaryKeyRelatedField(queryset=Annonce.objects.all())
 
     class Meta:
         model = Bookmark
-        fields = ['Annonce']
+        fields = "__all__"
     def create(self, validated_data):
-        request = self.context["request"]
-        ModelClass = self.Meta.model
-
-        instance = ModelClass.objects.get_or_create(
-            **validated_data, **{"user": request.user}
-        )
-        return instance
+        validated_data['user'] = self.context['request'].user
+        return Bookmark.objects.create(**validated_data)
 class ConversationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Conversation

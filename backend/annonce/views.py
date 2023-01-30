@@ -1,4 +1,4 @@
-from rest_framework import generics,filters,permissions
+from rest_framework import generics,filters,permissions,status
 from .models import Annonce,Bookmark
 from .serializers import AnnonceSerializer,BookmarkSerializer,UserSerializer
 from django_filters.rest_framework import DjangoFilterBackend
@@ -46,12 +46,27 @@ class AddToBookmarks(generics.CreateAPIView):
     queryset = Bookmark.objects.all()
     serializer_class = BookmarkSerializer
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        annonce_id = self.request.data.get('annonce')
+        annonce = Annonce.objects.get(id=annonce_id)
+        serializer.save(user=self.request.user, Annonce=annonce)
 
-class RemoveFromBookmarks(generics.RetrieveDestroyAPIView):
+class RemoveFromBookmarks(generics.DestroyAPIView):
     permission_classes=[permissions.IsAuthenticated]
     queryset = Bookmark.objects.all()
     serializer_class = BookmarkSerializer
+    def delete(self, request, *args, **kwargs):
+        annonce_id = self.request.data.get('annonce')
+        annonce = Annonce.objects.get(id=annonce_id)
+        user = request.user
+
+        bookmark = self.queryset.filter(Annonce=annonce, user=user)
+
+        if not bookmark.exists():
+            return Response({"error": "Bookmark does not exist"},
+                            status=status.HTTP_404_NOT_FOUND)
+
+        bookmark.delete()
+        return Response({"message": "Bookmark removed successfully"})
 
 class AllBookmarks(generics.ListAPIView):
     permission_classes=[permissions.IsAuthenticated]
