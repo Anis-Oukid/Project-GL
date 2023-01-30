@@ -2,57 +2,108 @@ import React,{useState} from "react";
 import './AddAnnonce.css'
 import {AiOutlinePlus} from 'react-icons/ai'
 import { useAuthContext } from '../../hooks/useAuthContext'
+import cities from '../data/algeria-cities'
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 const AddAnnonce = () =>{
       const { user } = useAuthContext()
-
-    const [category, setCategory] = useState(null);
+      const navigate = useNavigate();
+    //const [category, setCategory] = useState(null);
     const [modalite, setModalite] = useState(null);
     const [theme, setTheme] = useState(null);
     const [title, setTitle] = useState(null);
     const [description, setDescription] = useState(null);
     const [tarif, setTarif] = useState(null);
     const [commune, setCommune] = useState(null);
-    const [wilaya, setWilaya] = useState(null);
+ //   const [wilaya, setWilaya] = useState(null);
     const [files,setImages]=useState([]);
 
-    const handleFileChange = (e) => {
-        setImages(e.target.files);
+
+    const [wilaya, setWilaya] = useState('');
+    const [communeChoisie, setCommuneChoisie] = useState('');
+    const [yearLevel, setYearLevel] = useState('');
+    const [category, setCategory] = useState('Select Category');
+    const years = [
+        {
+            "level" : "Primary School",
+            "Years" : ["1AP", "2AP", "3AP", "4AP", "5AP"]
+        },
+        {
+            "level" : "Middle School",
+            "Years" : ["1AM", "2AM", "3AM", "4AM"]
+        },
+        {
+            "level" : "Secondary School",
+            "Years" : ["1AS", "2AS", "3AS"]
+        }
+    ]
+
+    const handleChangeWilaya = (event) =>{
+        setWilaya(event.target.value);
+    }
+    const handleChangeYear = (event) =>{
+        setYearLevel(event.target.value);
+    }
+    const handleChangeCommune = (event) =>{
+        console.log(event.target.value)
+        console.log(wilaya)
+        setCommuneChoisie(event.target.value)
+    }
+    const handleFileChange = (event) => {
+        const newFiles = Array.from(event.target.files);
+        setImages([...files, ...newFiles]);
       };
 
 
     const handlesubmit = async (e) => {
         e.preventDefault()
-
-       // const data = new FormData();
-        //for (const file of files) {
-          //  data.append('files', file);
-          //}
-        const annonce={  title,
-            category,
-            modalite,
-            theme,
-            description,
-            tarif,
-            wilaya,
-        commune,
-       // uploaded_images:data,
+        const add ={
+            'wilaya':wilaya,
+            'Commune':communeChoisie
         }
-        console.log(annonce)
-      
-        const response = await fetch(`http://127.0.0.1:8000/api/`, {
-          body:JSON.stringify(annonce),
-          method: 'POST',
-          headers:{
-            'Authorization': `Bearer ${user.data.tokens.access}`,
-            'Content-Type': 'multipart/form-data'
-        }
-        })
-        const json = await response.json()
-        if (response.ok) {
-            
-    console.log('added')
+        console.log(add)
+        const response =  axios.post(`http://127.0.0.1:8000/api/addadresse/`, 
+            add,{
+            headers:{
+              'Authorization': `Bearer ${user.data.tokens.access}`,
           }
-      }
+          }).then((response) => {
+          
+        const data = new FormData();
+        data.append('title',title)
+        data.append('category',category)
+        data.append('modalite','offline')
+        data.append('theme','math')
+        data.append('description',description)
+        data.append('tarif',tarif)
+        data.append('adresse',response.data.id)
+       
+
+        for (const file of files) {
+           data.append('uploaded_images', file);
+           }
+           for (var key of data.entries()) {
+            console.log(key[0] + ', ' + key[1]);
+        }
+           axios
+           .post('http://127.0.0.1:8000/api/', data,{
+            headers:{
+              'Authorization': `Bearer ${user.data.tokens.access}`,
+          }
+          })
+           .then((response) => {
+             console.log(response);
+             navigate('/', { replace: true });
+             // Handle the success response
+           })
+           .catch((error) => {
+             console.error(error);
+             // Handle the error
+           });
+   
+      
+      })
+    }
     return(
         <div className="addAnnonceBody">
             <div className="annonceNew">
@@ -61,14 +112,14 @@ const AddAnnonce = () =>{
                 </h1>
                 <div className="annonceNewForm">
                     <form action="" className="formContent" onSubmit={handlesubmit}>
-                        <label htmlFor="titleInput" className="labelTitle">Title</label>
-                        <input onChange={(e) => setTitle(e.target.value)} value={title || ""}className="formInput" type="text" id="titleInput" style={{width : "30%"}}/>
+                    <label htmlFor="titleInput" className="labelTitle">Title</label>
+                        <input className="formInput" type="text" onChange={e=>setTitle(e.target.value)} id="titleInput" style={{width : "30%"}}/>
                         <label htmlFor="descriptionInput" className="labelTitle">Description</label>
-                        <textarea  onChange={(e) => setDescription(e.target.value)} value={description || ""}  className="formInput" type="text" id="descriptionInput" style={{width : "60%", height : "5rem"}}/>
+                        <textarea className="formInput" type="text" onChange={(e)=>setDescription(e.target.value)} id="descriptionInput" style={{width : "60%", height : "5rem"}}/>
                         <div className="doubleForm">
                             <div className="categoryCategoryForm">
                                 <label htmlFor="Category" className="labelTitle">Category</label><br />
-                                <select onChange={(e) => setCategory(e.target.value)} value={category || ""} className="formInput" id="categoryList">
+                                <select className="formInput" id="categoryList" onChange={(event) => setCategory(event.target.value)}>
                                     <option value="" selected>Select Category</option>
                                     <option value="Primary School">Primary School</option>
                                     <option value="Middle School">Middle School</option>
@@ -77,22 +128,50 @@ const AddAnnonce = () =>{
                             </div>
                             <div className="yearForm">
                                 <label htmlFor="Year" className="labelTitle">Year</label><br />
-                                <input className="formInput" type="text" name="year" id="Year" />
+                                <select className="formInput" name="year" id="Year" onChange={handleChangeYear}>
+                                    <option value="">Select Year</option>
+                                {years.map(item => (
+                                    item.Years.map(yearr =>( category===item.level && <option value={yearr}>{yearr}</option>))
+                                ))}
+                                </select>
                             </div>
                         </div>
                         <div className="doubleForm">
                             <div className="themeThemeForm">
                                 <label htmlFor="Theme" className="labelTitle">Theme</label><br />
-                                <input onChange={(e) => setTheme(e.target.value)} value={theme || ""} className="formInput" type="text" name="theme" id="Theme"/>
+                                <select className="formInput" type="text" name="theme" id="Theme">
+                                    <option value="">Select Theme</option>   
+                        
+                                </select>
                             </div>
                             <div className="modalityForm">
                                 <label htmlFor="Modality" className="labelTitle">Modality</label>
-                                <input  onChange={(e) => setModalite(e.target.value)} value={modalite || ""} className="formInput" type="text" name="modality" id="Modality"/>
+                                <select className="formInput" type="text" name="modality" id="Modality" onChange={(e)=>{setModalite(e.target.value)}}>
+                                    <option value="offline">Offline</option>
+                                    <option value="online">Online</option>
+                                </select>
                             </div>
                         </div>
-                        
-                        <label htmlFor="Location" className="labelTitle">Location</label>
-                        <input  onChange={(e) => setWilaya(e.target.value)} value={wilaya || ""} className="formInput" type="text" name="location" id="Location"/>
+                        <div className="doubleForm">
+                            <div className="wilayaForm">
+                                <label htmlFor="Wilaya" className="labelTitle">Wilaya</label>
+                                <select className="formInput" onChange={handleChangeWilaya} id="Wilaya">
+                                    <option value="" selected>Select Wilaya</option>
+                                    {[...new Set(cities.map((item) => item.wilaya_name_ascii))].map((item) => (
+                                        <option value={item}>{item}</option>
+                                        ))}
+                                </select>
+                            </div>
+                            <div className="communeForm">
+                                <label htmlFor="Commune" className="labelTitle">Municipality</label>
+                                <select className="formInput" onChange={handleChangeCommune} id="Commune" >
+                                <option value="" selected>Select Municipality</option>
+                                {cities.map(item => (
+                                    item.wilaya_name_ascii === wilaya && <option value={item.commune_name_ascii}>{item.commune_name_ascii}</option>
+                                ))}
+                                </select>
+                            </div>
+                        </div>
                         <div className="doubleForm">
                             <div className="maxStudentNumber">
                                 <label htmlFor="maxStudent" className="labelTitle">Maximum Student Number</label>
@@ -107,12 +186,12 @@ const AddAnnonce = () =>{
                             <label htmlFor="" className="labelTitle">Add Pictures (Optional)</label>
                             <div className="pictureArea">
                                 <label htmlFor="uploadFile"><AiOutlinePlus style={{cursor : "pointer"}}/></label>
-                                <input type="file" id="uploadFile" onChange={handleFileChange} multiple/>
+                                <input type="file" id="uploadFile" multiple onChange={handleFileChange}/>
 
                             </div>
                         </div>
                             <label htmlFor="Price" className="labelTitle">Price</label>
-                            <input  onChange={(e) => setTarif(e.target.value)} value={tarif || ""} className="formInput" type="number" name="price" id="Price" style={{width : "20%"}}/>
+                            <input className="formInput" type="number" onChange={(e)=>{setTarif(e.target.value)}} name="price" id="Price" style={{width : "20%"}}/>
                         <button type="submit" className="annonceSubmitButton">Post</button>
                     </form>
                 </div>

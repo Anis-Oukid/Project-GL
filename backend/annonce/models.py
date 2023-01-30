@@ -31,6 +31,9 @@ class Annonce(models.Model):
         ('primaire', 'primaire'),
         ('college', 'college'),
          ('lycee', 'lycee'),
+        ('Primary School','Primary School'),
+        ('Middle School','Middle School'),
+        ('Secondary School','Secondary School')
     )
     modalité_options = (
         ('offline', 'offline'),
@@ -41,13 +44,28 @@ class Annonce(models.Model):
          ('math', 'math'),
         ('science', 'science'),
     )
+    year_choices=(
+        ('1AP','1AP'),
+          ('2AP','2AP'),
+            ('3AP','3AP'),
+              ('4AP','4AP'),
+                ('5AP','5AP'),
+            ('1AM','1AM'),
+          ('2AM','2AM'),
+            ('3AM','3AM'),
+              ('4AM','4AM'),
+               ('1AS','1AS'),
+          ('2AS','2AS'),
+            ('3AS','3AS'),
+    )
     theme =models.CharField(max_length=50, choices=theme_options
          )
     annoncer = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='annoncer')
     title=models.CharField(max_length=100)
     category = models.CharField(
-        max_length=10, choices=category_options,)
+        max_length=40, choices=category_options,)
+    year=models.CharField(max_length=7,choices=year_choices,null=True)
     modalite = models.CharField(
         max_length=8, choices=modalité_options,)
     description = models.TextField(max_length=300,blank=True)

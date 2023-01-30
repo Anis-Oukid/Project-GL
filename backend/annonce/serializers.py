@@ -12,6 +12,7 @@ class AdresseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Adresse
         fields = "__all__"
+
 class AnnonceSerializer(serializers.ModelSerializer):
     #annoncer = serializers.HiddenField(default=serializers.CurrentUserDefault())
     adresse=AdresseSerializer(many=False,read_only=True)
@@ -23,11 +24,11 @@ class AnnonceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Annonce
         fields = ('id', 'title', 'category','theme', 'modalite', 'description', 'tarif', 'adresse', 'published',"images",
-                  'uploaded_images')
+                  'uploaded_images','year')
 
     
     def create(self, validated_data):
-       
+        print(validated_data)
         uploaded_images = validated_data.pop("uploaded_images") 
         validated_data['annoncer'] = self.context['request'].user
        

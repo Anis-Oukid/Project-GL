@@ -19,9 +19,9 @@
 }
 
 .descriptionSection{
+    padding: 10% 0% 0% 5%;
     height: fit-content;
     display: flex;
-    position: relative;
     flex-direction: column;
     align-items: flex-start;
     top: 8%;

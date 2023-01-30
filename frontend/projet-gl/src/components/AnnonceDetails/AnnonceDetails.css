@@ -1,0 +1,118 @@
+.Announcement_detailed_body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #DFE2E2;
+}
+
+.announcementDetailsContent{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    height: 90%;
+    margin: 20px auto;
+}
+.bookmarkIcon{
+    width: fit-content;
+    height: fit-content;
+    font-size: 4rem;
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+}
+
+.firstSec {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 20px;
+    width: 100%;
+}
+
+.txt{
+    font-weight: bolder;
+    font-family: Sora ;
+    font-size: 30px;
+    text-align: center;
+}
+.secondSec *{
+    vertical-align: middle;
+}
+.secondSec{
+    display: flex;
+    width: 100%;
+    height: 300px;
+}
+.itemz{
+    display: flex; 
+}
+ 
+.titles{
+    font-weight: bold;
+    font-size: 18px;
+}
+.desc{
+    font-size: 19px;  
+    padding-bottom: 10px; 
+}
+.inputs{
+   font-size: 19px;
+   padding-left: 15px;
+
+}
+.thirdSec{
+    padding-top: 30px;
+    display: flex;
+}
+
+.sideOne{
+  
+    padding-left: 50px;
+    padding-right: 50px;
+   
+}
+
+.sideTwo{
+    padding-top: 100px;
+    padding-right: 50px;
+}
+
+.sideTwo p{
+    font-weight: bold ;
+    font-size: 35px;
+    padding-top: 20px;
+    text-align: center;
+}
+
+.price{
+    font-weight: bold ;
+    font-size: 35px;
+    padding-top: 20px;
+}
+
+.annonceImg{
+    height: 100%;
+    width: 100%;
+}
+.postImages{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-height: 100%;
+    max-width: 100%;
+    border-radius: 3px;
+    margin: 0px 10px 0px 10px;
+    box-shadow: 0px 5px 5px #1F2F31;
+}
+.accountTab{
+    width: fit-content;
+}
+
+.carousShow  *{
+    display: flex;
+    justify-content: center;
+}

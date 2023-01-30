@@ -7,7 +7,7 @@ import Annonce from './components/Annonce/Annonce';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import AddAnnonce from './components/AddAnnonce/AddAnnonce'
 import MyProfile from './components/MyProfile/MyProfile'
-
+import AnnonceDetails from './components/AnnonceDetails/AnnonceDetails';
 import { useAuthContext } from './hooks/useAuthContext'
 function App() {
   const { user } = useAuthContext()
@@ -19,10 +19,9 @@ function App() {
         
         <Route path="/login" element={<Main/>} />
         <Route path="/" element={<Home/>}/>
-        <Route path="/annonce" element={<Annonce/>}/>
         <Route path="/addannonce" element={<AddAnnonce/>}/>
         <Route path="/myprofile" element={<MyProfile/>}/>
-        
+        <Route path="/annonce/:id" element ={<AnnonceDetails />}/>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

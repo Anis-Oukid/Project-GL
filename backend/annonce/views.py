@@ -1,13 +1,15 @@
 from rest_framework import generics,filters,permissions,status
-from .models import Annonce,Bookmark
-from .serializers import AnnonceSerializer,BookmarkSerializer,UserSerializer
+from .models import Annonce,Bookmark,Adresse
+from .serializers import AnnonceSerializer,BookmarkSerializer,UserSerializer,AdresseSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from user.models import User
 from rest_framework.response import Response
 #from .webscraper.scrap import scrape_by_domain
 
-
-
+class OneUser(generics.RetrieveAPIView):
+    permission_classes=[permissions.IsAuthenticated]
+    serializer_class=UserSerializer
+    queryset = User.objects.all()
 class Myprofile(generics.RetrieveUpdateAPIView):
     permission_classes=[permissions.IsAuthenticated]
     serializer_class = UserSerializer
@@ -23,7 +25,9 @@ class AnnonceList(generics.ListCreateAPIView):
     serializer_class = AnnonceSerializer
     
     def perform_create(self, serializer):
-        serializer.save(annoncer=self.request.user)
+        adresse_id = self.request.data.get('adresse')
+        adresse = Adresse.objects.get(id=adresse_id)
+        serializer.save(annoncer=self.request.user,adresse=adresse)
 
 class AnnonceDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes=[permissions.IsAuthenticatedOrReadOnly]
@@ -46,7 +50,7 @@ class AddToBookmarks(generics.CreateAPIView):
     queryset = Bookmark.objects.all()
     serializer_class = BookmarkSerializer
     def perform_create(self, serializer):
-        annonce_id = self.request.data.get('annonce')
+        annonce_id = self.request.data.get('annonce_id')
         annonce = Annonce.objects.get(id=annonce_id)
         serializer.save(user=self.request.user, Annonce=annonce)
 
@@ -54,10 +58,10 @@ class RemoveFromBookmarks(generics.DestroyAPIView):
     permission_classes=[permissions.IsAuthenticated]
     queryset = Bookmark.objects.all()
     serializer_class = BookmarkSerializer
-    def delete(self, request, *args, **kwargs):
-        annonce_id = self.request.data.get('annonce')
+    def delete(self, request, ):
+        annonce_id = self.request.data.get('annonce_id')
         annonce = Annonce.objects.get(id=annonce_id)
-        user = request.user
+        user = self.request.user
 
         bookmark = self.queryset.filter(Annonce=annonce, user=user)
 
@@ -75,7 +79,10 @@ class AllBookmarks(generics.ListAPIView):
     def get_queryset(self):
         return Bookmark.objects.filter(user=self.request.user)
     
-
+class AddAdresse(generics.CreateAPIView):
+    permission_classes=[permissions.IsAuthenticated]
+    queryset=Adresse.objects.all()
+    serializer_class=AdresseSerializer
 
 """ Concrete View Classes
 #CreateAPIView

@@ -1,0 +1,42 @@
+.big{
+    display: flex;
+    align-items: center;
+}
+.contactInfo{    
+    display: grid;
+    grid-template-columns: 20% 75% ;
+    grid-gap: 5%;
+}
+
+/* .inf{
+    margin: 0px;
+    display: flex;
+} */
+
+/* .inf h6 {
+    padding-left: 10px;
+    font-weight: lighter;
+} */
+
+.contactButton{
+    width: 150px;
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    background-color: #1F2F31;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    
+}
+
+.last{
+    padding-top: 15px;
+    padding-left: 120px;
+}
+
+.accountProfilePic{
+    width: 100%;
+    border-radius: 50%;
+    border: 1px solid #1F2F31;
+}

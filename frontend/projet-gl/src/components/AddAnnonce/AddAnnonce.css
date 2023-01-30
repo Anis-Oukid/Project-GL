@@ -29,6 +29,7 @@
 
 .annonceNewForm{
     display: flex;
+    justify-content: center;
     width: 90%;
     height: 90%;
     padding: 2%;
@@ -39,18 +40,18 @@
     flex-direction: column;
     width: 100%;
     height: 100%;
+    margin: auto;
 }
-.formContent input, textarea, .pictureArea{
+.formContent .formInput{
     margin-bottom: 2rem;
 }
 .doubleForm{
+    width: 100%;
     display: grid;
-    grid-template-columns: 40% 30%;
+    grid-template-columns: 45% 45%;
     grid-gap: 10%;
 }
-.doubleForm *{
-    margin: 0 10% 0 0;
-}
+
 .annonceSubmitButton{
     width: fit-content;
     color: #000000;
