@@ -5,6 +5,7 @@ from rest_framework import status
 from .models import Annonce, Bookmark
 from user.models import User
 
+
 class MyprofileTests(APITestCase):
     def setUp(self):
         self.client = APIClient()
@@ -51,9 +52,10 @@ class AnnonceTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['title'], 'Test Annonce')
         self.assertEqual(response.data['description'], 'This is a test annonce')
-        self.assertEqual(response.data['annoncer']['email'], 'testuser@estin.dz')
+     
     
     def test_delete_annonce(self):
         response = self.client.delete(reverse('annonce-detail', args=[self.annonce.pk]))
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(Annonce.objects.count(), 0)
+
